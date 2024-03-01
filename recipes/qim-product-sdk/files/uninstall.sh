@@ -6,8 +6,8 @@
 SDK_NAME="QIM_PRODUCT_SDK"
 
 REMOVE_PKGS=""
-PKG_LIST_DIR="/home/root/qim_prod_sdk/"
-PKG_LIST_FILE="$PKG_LIST_DIR/$SDK_NAME.list"
+PKG_LIST_FILE="/opt/qcom/qimsdk/${SDK_NAME}.list"
+QIM_PKG_DIR = "/opt/qcom/qimsdk/"
 
 # check permission for execute this script
 function check_permission() {
@@ -30,21 +30,14 @@ function main() {
         exit 1
     fi
 
-    if lsb_release -a 2>/dev/null | grep -q "Ubuntu"; then
-        uninstall_command="dpkg -r --force-depends"
-    else
-        uninstall_command="opkg remove --force-depends --force-remove"
-    fi
-
     for pkg in `cat $PKG_LIST_FILE`; do
-        REMOVE_PKGS="$REMOVE_PKGS $pkg"
-    done
-
-    for PKG_FILE in $REMOVE_PKGS; do
-        $uninstall_command $PKG_FILE
+        echo "Removing the following files of ${pkg} from ${QIM_PKG_DIR}"
+        echo "$(opkg files $pkg | tail -n +2)"
+        echo "-------------------------------------------------------------------"
     done
 
     rm -rf $PKG_LIST_FILE
+    rm -rf ${QIM_PKG_DIR}
 }
 
 main "$@"

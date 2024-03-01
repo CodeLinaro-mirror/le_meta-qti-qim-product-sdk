@@ -6,28 +6,24 @@ LIC_FILES_CHKSUM = "file://${QCOM_COMMON_LICENSE_DIR}/${LICENSE};md5=58d50a3d36f
 SUMMARY          = "QNN-SDK"
 DESCRIPTION      = "Qualcomm Neural Network SDK"
 
-SRC_URI = "file://qnn"
-S = "${WORKDIR}/qnn"
+QNN_DIR = "${DL_DIR}/qnn"
 
 do_fetch() {
     if [ ! -f "/usr/bin/qpm-cli" ]; then
         echo "QPM is not installed on host machine, Please try after QPM installation!!"
         exit 1
     fi
-    mkdir -p qnn
-    if [ -d "/opt/qcom/aistack/qnn/${QNN_VERSION}" ]; then
-        cp -r /opt/qcom/aistack/qnn/${QNN_VERSION}/* qnn/.
-    else
+    if [ ! -d ${QNN_DIR}/lib ]; then
+        mkdir -p ${QNN_DIR}
         /usr/bin/qpm-cli --license-activate qualcomm_ai_engine_direct
-        yes y | /usr/bin/qpm-cli --extract qualcomm_ai_engine_direct --version ${QNN_VERSION}
-        cp -r /opt/qcom/aistack/qnn/${QNN_VERSION}/* qnn/.
+        yes y | /usr/bin/qpm-cli --extract qualcomm_ai_engine_direct --version ${QNN_VERSION} --path ${QNN_DIR}
     fi
 }
 
 def platform_dir(d):
     gccversion  = d.getVar("GCCVERSION", True).strip('%').split('.')[0]
     gccversion_integer = int(gccversion)
-    sdk_lib_dir = d.getVar("S", True) + "/lib/"
+    sdk_lib_dir = d.getVar("QNN_DIR", True) + "/lib/"
     dir_prefix = "aarch64-oe-linux-gcc"
     for version in range (gccversion_integer, 8, -1):
         gccversion = str(version)
@@ -51,11 +47,11 @@ do_install() {
     install -d ${D}/${includedir}
     install -d ${D}/${libdir}/rfsa/adsp
 
-    install -m 0755 ${S}/lib/${PLATFORM_DIR}/* ${D}/${libdir}
-    install -m 0755 ${S}/bin/${PLATFORM_DIR}/* ${D}/${bindir}
-    install -m 0755 ${S}/lib/${HEXAGON_DIR}/unsigned/* ${D}/${libdir}/rfsa/adsp
+    install -m 0755 ${QNN_DIR}/lib/${PLATFORM_DIR}/* ${D}/${libdir}
+    install -m 0755 ${QNN_DIR}/bin/${PLATFORM_DIR}/* ${D}/${bindir}
+    install -m 0755 ${QNN_DIR}/lib/${HEXAGON_DIR}/unsigned/* ${D}/${libdir}/rfsa/adsp
 
-    cp -r ${S}/include/QNN/* ${D}/${includedir}
+    cp -r ${QNN_DIR}/include/QNN/* ${D}/${includedir}
     chmod -R 0755 ${D}/${includedir}
 }
 

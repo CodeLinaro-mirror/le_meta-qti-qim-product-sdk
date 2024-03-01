@@ -6,28 +6,24 @@ LIC_FILES_CHKSUM = "file://${QCOM_COMMON_LICENSE_DIR}/${LICENSE};md5=58d50a3d36f
 SUMMARY          = "SNPE-SDK"
 DESCRIPTION      = "Snapdragon Neural Processing Engine SDK"
 
-SRC_URI = "file://snpe"
-S = "${WORKDIR}/snpe"
+SNPE_DIR = "${DL_DIR}/snpe"
 
 do_fetch() {
     if [ ! -f "/usr/bin/qpm-cli" ]; then
         echo "QPM is not installed on host machine, Please try after QPM installation!!"
         exit 1
     fi
-    mkdir -p snpe
-    if [ -d "/opt/qcom/aistack/snpe/${SNPE_VERSION}" ]; then
-        cp -r /opt/qcom/aistack/snpe/${SNPE_VERSION}/* snpe/.
-    else
+    if [ ! -d ${SNPE_DIR}/lib ]; then
+        mkdir -p ${SNPE_DIR}
         /usr/bin/qpm-cli --license-activate qualcomm_neural_processing_sdk
-        yes y | /usr/bin/qpm-cli --extract qualcomm_neural_processing_sdk --version ${SNPE_VERSION}
-        cp -r /opt/qcom/aistack/snpe/${SNPE_VERSION}/* snpe/.
+        yes y | /usr/bin/qpm-cli --extract qualcomm_neural_processing_sdk --version ${SNPE_VERSION} --path ${SNPE_DIR}
     fi
 }
 
 def platform_dir(d):
     gccversion  = d.getVar("GCCVERSION", True).strip('%').split('.')[0]
     gccversion_integer = int(gccversion)
-    sdk_lib_dir = d.getVar("S", True) + "/lib/"
+    sdk_lib_dir = d.getVar("SNPE_DIR", True) + "/lib/"
     dir_prefix = "aarch64-oe-linux-gcc"
     for version in range (gccversion_integer, 8, -1):
         gccversion = str(version)
@@ -51,11 +47,11 @@ do_install() {
     install -d ${D}/${includedir}
     install -d ${D}/${libdir}/rfsa/adsp
 
-    install -m 0755 ${S}/lib/${PLATFORM_DIR}/* ${D}/${libdir}
-    install -m 0755 ${S}/bin/${PLATFORM_DIR}/* ${D}/${bindir}
-    install -m 0755 ${S}/lib/${HEXAGON_DIR}/unsigned/* ${D}/${libdir}/rfsa/adsp
+    install -m 0755 ${SNPE_DIR}/lib/${PLATFORM_DIR}/* ${D}/${libdir}
+    install -m 0755 ${SNPE_DIR}/bin/${PLATFORM_DIR}/* ${D}/${bindir}
+    install -m 0755 ${SNPE_DIR}/lib/${HEXAGON_DIR}/unsigned/* ${D}/${libdir}/rfsa/adsp
 
-    cp -r ${S}/include/SNPE/* ${D}/${includedir}
+    cp -r ${SNPE_DIR}/include/SNPE/* ${D}/${includedir}
     chmod -R 0755 ${D}/${includedir}
 }
 
