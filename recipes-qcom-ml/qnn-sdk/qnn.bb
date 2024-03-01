@@ -57,6 +57,9 @@ do_install() {
 
     cp -r ${S}/include/QNN/* ${D}/${includedir}
     chmod -R 0755 ${D}/${includedir}
+    # libCalculator_skel.so is included by SNPE as well so we are removing from QNN
+    # This fix will be present until we get proper resolution from MLG team
+    rm -f ${D}/${libdir}/rfsa/adsp/libCalculator_skel.so
 }
 
 INHIBIT_PACKAGE_STRIP = "1"
