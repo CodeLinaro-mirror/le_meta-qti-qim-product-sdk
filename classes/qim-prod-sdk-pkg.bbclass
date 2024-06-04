@@ -71,12 +71,14 @@ do_generate_qim_prod_sdk () {
     done
     tar -zcf ${SSTATE_IN_DIR}/${SDK_PN}-dbg_${PV}.tar.gz ./${SDK_PN}/dbg/*
     rm -rf ./${SDK_PN}/dbg
-    mkdir -p ./${SDK_PN}/doc/
     for f in `find . -type f \( -name "*-doc_*" -o -name "*-staticdev_*" \)`
     do
-        mv $f ./${SDK_PN}/doc/
+        rm -rf $f
     done
-    rm -rf ./${SDK_PN}/doc
+    for f in `find . -type f \( -name "*-locale-*" -o -name "*-src_*" \)`
+    do
+        rm -rf $f
+    done
     tar -zcf ${SSTATE_IN_DIR}/${SDK_PN}-rel_${PV}.tar.gz ./${SDK_PN}/*
     rm -rf ${TMP_SSTATE_IN_DIR}
     bbwarn "QIM Product SDK available at ${SSTATE_OUT_DIR}"
