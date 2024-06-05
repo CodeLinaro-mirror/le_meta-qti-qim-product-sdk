@@ -96,7 +96,7 @@ def get_pkgs_list(d):
                     pkgslist.append(os.path.join(deploydir, pkgtype, pkgdir, f))
     return " \\\n ".join(pkgslist)
 
-python do_generate_qim_sdk_setscene() {
+python do_generate_qim_prod_sdk_setscene() {
     sstate_setscene(d)
 }
 
