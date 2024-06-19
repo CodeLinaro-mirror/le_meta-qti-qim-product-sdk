@@ -40,10 +40,10 @@ do_generate_qim_prod_sdk[dirs] = "${SSTATE_IN_DIR} ${SSTATE_OUT_DIR}"
 do_generate_qim_prod_sdk[cleandirs] = "${SSTATE_IN_DIR} ${SSTATE_OUT_DIR}"
 do_generate_qim_prod_sdk[stamp-extra-info] = "${MACHINE_ARCH}"
 do_generate_qim_prod_sdk[depends] = " \
+         qim-product-sdk:do_patch \
          snpe:do_package_write_ipk \
          qnn:do_package_write_ipk \
          ${GST_ML_PLUGINS} \
-         packagegroup-qcom-qim-product:do_package_write_ipk \
          qim-sdk:do_generate_qim_sdk \
          tflite-sdk:do_generate_tflite_sdk \
    "
