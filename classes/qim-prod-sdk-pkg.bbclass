@@ -1,7 +1,8 @@
 # Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 SSTATETASKS += "do_generate_qim_prod_sdk "
-SSTATE_OUT_DIR = "${DEPLOY_DIR}/qim_prod_sdk_artifacts/"
+SSTATE_OUT_DIR:qcm6490 = "${DEPLOY_DIR}/qim_prod_sdk_artifacts/qcm6490/"
+SSTATE_OUT_DIR:qcs9100 = "${DEPLOY_DIR}/qim_prod_sdk_artifacts/qcs9100/"
 SSTATE_IN_DIR = "${TOPDIR}/${SDK_PN}"
 TMP_SSTATE_IN_DIR = "${TOPDIR}/${SDK_PN}_tmp"
 
