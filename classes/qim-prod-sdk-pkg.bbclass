@@ -51,9 +51,10 @@ do_generate_qim_prod_sdk[depends] = " \
 # Add a task to generate qim product sdk
 do_generate_qim_prod_sdk () {
     # generate QIM PRODUCT SDK package
-    if [ ! -d ${TMP_SSTATE_IN_DIR}/${SDK_PN} ]; then
-        mkdir -p ${TMP_SSTATE_IN_DIR}/${SDK_PN}/
+    if [ -d ${TMP_SSTATE_IN_DIR}/${SDK_PN} ]; then
+        rm -rf ${TMP_SSTATE_IN_DIR}/${SDK_PN}/
     fi
+    mkdir -p ${TMP_SSTATE_IN_DIR}/${SDK_PN}/
     cd ${TMP_SSTATE_IN_DIR}/
     tar -xvf ${DEPLOY_DIR}/qimsdk_artifacts/qim-sdk_*.tar.gz .
     tar -xvf ${DEPLOY_DIR}/tflitesdk_artifacts/tflite-sdk_*.tar.gz .
