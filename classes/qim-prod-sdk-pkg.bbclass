@@ -1,8 +1,7 @@
 # Copyright (c) 2024 Qualcomm Innovation Center, Inc. All rights reserved.
 # SPDX-License-Identifier: BSD-3-Clause-Clear
 SSTATETASKS += "do_generate_qim_prod_sdk "
-SSTATE_OUT_DIR:qcm6490 = "${DEPLOY_DIR}/qim_prod_sdk_artifacts/qcm6490/"
-SSTATE_OUT_DIR:qcs9100 = "${DEPLOY_DIR}/qim_prod_sdk_artifacts/qcs9100/"
+SSTATE_OUT_DIR:${MACHINE} = "${DEPLOY_DIR}/qim_prod_sdk_artifacts/${MACHINE}/"
 SSTATE_IN_DIR = "${TOPDIR}/${SDK_PN}"
 TMP_SSTATE_IN_DIR = "${TOPDIR}/${SDK_PN}_tmp"
 
@@ -57,8 +56,8 @@ do_generate_qim_prod_sdk () {
     fi
     mkdir -p ${TMP_SSTATE_IN_DIR}/${SDK_PN}/
     cd ${TMP_SSTATE_IN_DIR}/
-    tar -xvf ${DEPLOY_DIR}/qimsdk_artifacts/qim-sdk_*.tar.gz .
-    tar -xvf ${DEPLOY_DIR}/tflitesdk_artifacts/tflite-sdk_*.tar.gz .
+    tar -xvf ${DEPLOY_DIR}/qimsdk_artifacts/${MACHINE}/qim-sdk_*.tar.gz .
+    tar -xvf ${DEPLOY_DIR}/tflitesdk_artifacts/${MACHINE}/tflite-sdk_*.tar.gz .
     for pkg in `find . -type f  -name "*.ipk"`
     do
         mv $pkg ./${SDK_PN}/
