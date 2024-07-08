@@ -30,7 +30,6 @@ GST_ML_PLUGINS = " \
 GST_ML_PLUGINS:remove:qcs9100 = " \
         gstreamer1.0-plugins-qcom-oss-mlsnpe:do_package_write_ipk \
         gstreamer1.0-plugins-qcom-oss-mlqnn:do_package_write_ipk \
-        gstreamer1.0-plugins-qcom-oss-mltflite:do_package_write_ipk \
     "
 
 addtask do_generate_qim_prod_sdk_setscene
