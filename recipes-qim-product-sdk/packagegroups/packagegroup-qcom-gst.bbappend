@@ -1,6 +1,6 @@
-RDEPENDS:packagegroup-qcom-gst:append = "  \
-        gstreamer1.0-plugins-qcom-oss-mlsnpe \
-        gstreamer1.0-plugins-qcom-oss-mlqnn \
-        gstreamer1.0-plugins-qcom-oss-mltflite \
+RDEPENDS:packagegroup-qcom-gst:append:qcom-custom-bsp = "  \
+        qcom-gstreamer1.0-plugins-oss-mlsnpe \
+        qcom-gstreamer1.0-plugins-oss-mlqnn \
+        qcom-gstreamer1.0-plugins-oss-mltflite \
   "
 
