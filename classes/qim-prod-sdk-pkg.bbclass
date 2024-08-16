@@ -22,9 +22,9 @@ python __anonymous () {
 }
 
 GST_ML_PLUGINS = " \
-        gstreamer1.0-plugins-qcom-oss-mlsnpe:do_package_write_ipk \
-        gstreamer1.0-plugins-qcom-oss-mlqnn:do_package_write_ipk \
-        gstreamer1.0-plugins-qcom-oss-mltflite:do_package_write_ipk \
+        qcom-gstreamer1.0-plugins-oss-mlsnpe:do_package_write_ipk \
+        qcom-gstreamer1.0-plugins-oss-mlqnn:do_package_write_ipk \
+        qcom-gstreamer1.0-plugins-oss-mltflite:do_package_write_ipk \
     "
 
 addtask do_generate_qim_prod_sdk_setscene
@@ -39,7 +39,7 @@ do_generate_qim_prod_sdk[depends] = " \
          qcom-qnn-sdk:do_package_write_ipk \
          ${GST_ML_PLUGINS} \
          qcom-qim-sdk:do_generate_qim_sdk \
-         tflite-sdk:do_generate_tflite_sdk \
+         qcom-tflite-sdk:do_generate_tflite_sdk \
    "
 
 # Add a task to generate qim product sdk
@@ -106,6 +106,6 @@ python do_generate_qim_prod_sdk_setscene() {
     sstate_setscene(d)
 }
 
-do_cleanall[depends] = "qim-sdk:do_cleanall tflite-sdk:do_cleanall"
+do_cleanall[depends] = "qcom-qim-sdk:do_cleanall qcom-tflite-sdk:do_cleanall"
 
 RM_WORK_EXCLUDE += "${PN}"
