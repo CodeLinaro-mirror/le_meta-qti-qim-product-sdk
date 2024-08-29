@@ -98,7 +98,7 @@ def get_pkgs_list(d):
     for _, pkgdirs, _ in os.walk(os.path.join(deploydir, pkgtype)):
         for pkgdir in pkgdirs:
             for f in os.listdir(os.path.join(deploydir, pkgtype, pkgdir)):
-                if "qnn" in os.path.basename(f) or "snpe" in os.path.basename(f):
+                if "qnn" in os.path.basename(f) or "snpe" in os.path.basename(f) or "mltflite" in os.path.basename(f):
                     pkgslist.append(os.path.join(deploydir, pkgtype, pkgdir, f))
     return " \\\n ".join(pkgslist)
 
